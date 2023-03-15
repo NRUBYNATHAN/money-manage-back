@@ -14,9 +14,9 @@ const client = new MongoClient(MONGO_URL); // dial
 await client.connect(); // call
 console.log("Mongo is connected !!!  ");
 app.use(cors());
-// app.get("/", function (request, response) {
-//   response.send("🙋‍♂️, 🌏 🎊✨");
-// });
+app.get("/", function (request, response) {
+  response.send("🙋‍♂️, 🌏 🎊✨");
+});
 //add income
 app.post(
   "/income/addincome",
