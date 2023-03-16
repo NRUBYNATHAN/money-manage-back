@@ -56,38 +56,25 @@ app.get("/expense", async function (request, response) {
 });
 
 //edit income
-app.put(
-  "/income/editincome/:id",
-  express.json(),
-  async function (request, response) {
-    const { id } = request.params;
-    const data = request.body;
-    console.log(id);
-
-    //db.movies.updateOne({id:id},{$set:data})
-    const result = await client
-      .db("web")
-      .collection("income")
-      .updateOne({ _id: new ObjectId(id) }, { $set: data });
-    response.send(result);
-    // console.log(result);
-  }
-);
-
+app.put("/income/:id", express.json(), async function (request, response) {
+  const { id } = request.params;
+  const data = request.body;
+  const result = await client
+    .db("web")
+    .collection("income")
+    .updateOne({ _id: new ObjectId(id) }, { $set: data });
+  response.send(result);
+});
 //edit expense
-app.put(
-  "/expense/editexpense/:id",
-  express.json(),
-  async function (request, response) {
-    const { id } = request.params;
-    const datas = request.body;
-    const math = await client
-      .db("web")
-      .collection("expense")
-      .updateOne({ _id: new ObjectId(id) }, { $set: datas });
-    response.send(math);
-  }
-);
+app.put("/expense/:id", express.json(), async function (request, response) {
+  const { id } = request.params;
+  const data = request.body;
+  const result = await client
+    .db("web")
+    .collection("expense")
+    .updateOne({ _id: new ObjectId(id) }, { $set: data });
+  response.send(result);
+});
 
 //delete income
 app.delete("/income/:id", async function (request, response) {
