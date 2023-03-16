@@ -28,7 +28,7 @@ app.post(
   }
 );
 //get income
-app.get("/", async function (request, response) {
+app.get("/income", async function (request, response) {
   const result = await client.db("web").collection("income").find({}).toArray();
   response.send(result);
 });
