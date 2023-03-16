@@ -56,25 +56,33 @@ app.get("/expense", async function (request, response) {
 });
 
 //edit income
-app.put("/income/:id", express.json(), async function (request, response) {
-  const { id } = request.params;
-  const data = request.body;
-  const result = await client
-    .db("web")
-    .collection("income")
-    .updateOne({ _id: new ObjectId(id) }, { $set: data });
-  response.send(result);
-});
+app.put(
+  "/income/editincome/:id",
+  express.json(),
+  async function (request, response) {
+    const { id } = request.params;
+    const data = request.body;
+    const result = await client
+      .db("web")
+      .collection("income")
+      .updateOne({ _id: new ObjectId(id) }, { $set: data });
+    response.send(result);
+  }
+);
 //edit expense
-app.put("/expense/:id", express.json(), async function (request, response) {
-  const { id } = request.params;
-  const data = request.body;
-  const result = await client
-    .db("web")
-    .collection("expense")
-    .updateOne({ _id: new ObjectId(id) }, { $set: data });
-  response.send(result);
-});
+app.put(
+  "/expense/editexpense/:id",
+  express.json(),
+  async function (request, response) {
+    const { id } = request.params;
+    const data = request.body;
+    const result = await client
+      .db("web")
+      .collection("expense")
+      .updateOne({ _id: new ObjectId(id) }, { $set: data });
+    response.send(result);
+  }
+);
 
 //delete income
 app.delete("/income/:id", async function (request, response) {
