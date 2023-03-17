@@ -27,11 +27,6 @@ app.post(
     response.send(income);
   }
 );
-//get income
-app.get("/income", async function (request, response) {
-  const result = await client.db("web").collection("income").find({}).toArray();
-  response.send(result);
-});
 //add expense
 app.post(
   "/expense/addexpense",
@@ -45,6 +40,11 @@ app.post(
     response.send(expense);
   }
 );
+//get income
+app.get("/income", async function (request, response) {
+  const result = await client.db("web").collection("income").find({}).toArray();
+  response.send(result);
+});
 //get expense
 app.get("/expense", async function (request, response) {
   const result = await client
@@ -55,34 +55,42 @@ app.get("/expense", async function (request, response) {
   response.send(result);
 });
 
+app.get("/income/:id", async function (request, response) {
+  const { id } = request.params;
+  const result = await client
+    .db("web")
+    .collection("income")
+    .findOne({ _id: new ObjectId(id) });
+  response.send(result);
+});
+app.get("/expense/:id", async function (request, response) {
+  const { id } = request.params;
+  const result = await client
+    .db("web")
+    .collection("expense")
+    .findOne({ _id: new ObjectId(id) });
+  response.send(result);
+});
+
 //edit income
-app.put(
-  "/income/editincome/:id",
-  express.json(),
-  async function (request, response) {
-    const { id } = request.params;
-    const data = request.body;
-    const result = await client
-      .db("web")
-      .collection("income")
-      .updateOne({ _id: new ObjectId(id) }, { $set: data });
-    response.send(result);
-  }
-);
-//edit expense
-app.put(
-  "/expense/editexpense/:id",
-  express.json(),
-  async function (request, response) {
-    const { id } = request.params;
-    const data = request.body;
-    const result = await client
-      .db("web")
-      .collection("expense")
-      .updateOne({ _id: new ObjectId(id) }, { $set: data });
-    response.send(result);
-  }
-);
+app.put("/income/:id", express.json(), async function (request, response) {
+  const { id } = request.params;
+  const data = request.body;
+  const result = await client
+    .db("web")
+    .collection("income")
+    .updateOne({ _id: new ObjectId(id) }, { $set: data });
+  response.send(result);
+});
+app.put("/expense/:id", express.json(), async function (request, response) {
+  const { id } = request.params;
+  const data = request.body;
+  const result = await client
+    .db("web")
+    .collection("expense")
+    .updateOne({ _id: new ObjectId(id) }, { $set: data });
+  response.send(result);
+});
 
 //delete income
 app.delete("/income/:id", async function (request, response) {
@@ -101,4 +109,5 @@ app.delete("/expense/:id", async function (request, response) {
     .deleteOne({ _id: new ObjectId(id) });
   response.send(result);
 });
+
 app.listen(PORT, () => console.log(`The server started in: ${PORT} ✨✨`));
